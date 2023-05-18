@@ -1,0 +1,16 @@
+apiVersion: k6.io/v1alpha1
+kind: K6
+
+metadata:
+  name: k6-stress-test
+spec:
+  parallelism: 10
+  arguments: --out experimental-prometheus-rw
+  script:
+    configMap:
+      name: stress-test
+      file: k6.js
+  runner:
+    env:
+      - name: K6_PROMETHEUS_RW_SERVER_URL
+        value: http://prometheus-prometheus-node-exporter.monitoring/api/v1/write
